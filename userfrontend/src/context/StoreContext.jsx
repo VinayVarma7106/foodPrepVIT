@@ -4,7 +4,7 @@ export const StoreContext = createContext();
 const StoreContextProvider = ({children})=>{
     const [cartItems,setCartItems] = useState({})
     const [food_list,setFoodList] = useState([])
-    const url = 'https://backend-hgjk.onrender.com'
+    const url = 'http://localhost:4000'
     const [token,setToken] = useState("")
 
     const fetchFoodList = async()=>{
