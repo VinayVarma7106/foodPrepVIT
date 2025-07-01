@@ -12,16 +12,20 @@ const StoreContextProvider = ({children})=>{
         setFoodList(response.data.data)
     }
 
-    useEffect(()=>{
-        async function loadData(){
-            await fetchFoodList()
-            if(localStorage.getItem("token")){
-                setToken(localStorage.getItem("token")) 
-                await loadCartData(localStorage.getItem("token"))       
+    const [loading, setLoading] = useState(true); // NEW
+
+    useEffect(() => {
+        async function loadData() {
+            await fetchFoodList();
+            if (localStorage.getItem("token")) {
+                setToken(localStorage.getItem("token"));
+                await loadCartData(localStorage.getItem("token"));
             }
+            setLoading(false); // done loading
         }
-        loadData()
-    },[])
+        loadData();
+    }, []);
+    
     
     const loadCartData = async(token)=>{
         const response = await axios.get(url+"/api/cart/get",{headers:{token}})
@@ -75,7 +79,8 @@ const StoreContextProvider = ({children})=>{
         getTotalCartAmount,
         url,
         token,
-        setToken
+        setToken,
+        loading,
     }
     return(
         <StoreContext.Provider value={contextValue}>
