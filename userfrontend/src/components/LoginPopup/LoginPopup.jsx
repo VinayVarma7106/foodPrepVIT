@@ -1,4 +1,5 @@
 import { useState, useEffect, useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import "./LoginPopup.css";
 import { assets } from "../../assets/assets";
 import { StoreContext } from "../../context/StoreContext";
@@ -7,6 +8,8 @@ import { toast } from 'react-toastify';
 
 const LoginPopup = ({ setShowLogin }) => {
   const { url, token, setToken } = useContext(StoreContext);
+  const navigate = useNavigate();
+
   const [curState, setCurState] = useState("Log In");
   const [data, setData] = useState({
     name: "",
@@ -35,9 +38,11 @@ const LoginPopup = ({ setShowLogin }) => {
         setCurState("Log In");
       } else {
         setToken(response.data.token);
+        setToken(response.data.token);
         localStorage.setItem("token", response.data.token);
-        toast.success("Logged in successfully!"); // ✅ Success toast added here
+        toast.success("Logged in successfully!");
         setShowLogin(false);
+        navigate("/myorders");  
       }
     } catch (error) {
       toast.error(error.response?.data?.message || "An error occurred");
