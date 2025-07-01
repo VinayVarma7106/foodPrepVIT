@@ -5,7 +5,7 @@ import { ToastContainer } from 'react-toastify';
 import Navbar from './components/Navbar/Navbar';
 import Footer from './components/Footer/Footer';
 import LoginPopup from './components/LoginPopup/LoginPopup';
-
+import "/App.css"
 import Home from './screens/Home/Home';
 import Cart from './screens/Cart/Cart';
 import Verify from './screens/Verify/Verify';
@@ -21,10 +21,12 @@ const App = () => {
   if (loading) {
     return (
       <div className="loading-screen">
+        <div className="loader"></div>
         <h2>Loading...</h2>
       </div>
     );
   }
+  
 
   return (
     <>
