@@ -19,7 +19,19 @@ const App = () => {
 
   return (
     <>
-      <ToastContainer/>
+      <ToastContainer
+      position="top-right"
+      autoClose={3000}
+      hideProgressBar={false}
+      newestOnTop={false}
+      closeOnClick
+      rtl={false}
+      pauseOnFocusLoss
+      draggable
+      pauseOnHover
+      theme="light" // Or "dark"
+      limit={3}
+      />
       {showLogin?<LoginPopup setShowLogin={setShowLogin}/>:<></>}
       <div className='app'>
         <Navbar showLogin={showLogin} setShowLogin={setShowLogin} />
