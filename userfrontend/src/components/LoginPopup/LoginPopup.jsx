@@ -1,49 +1,48 @@
-import { useState, useEffect } from "react";
-import { useContext } from "react";
+import { useState, useEffect, useContext } from "react";
 import "./LoginPopup.css";
 import { assets } from "../../assets/assets";
 import { StoreContext } from "../../context/StoreContext";
-import axios from 'axios'
-import {toast} from 'react-toastify'
+import axios from 'axios';
+import { toast } from 'react-toastify';
+
 const LoginPopup = ({ setShowLogin }) => {
-  const {url,token,setToken} = useContext(StoreContext)
+  const { url, token, setToken } = useContext(StoreContext);
   const [curState, setCurState] = useState("Log In");
   const [data, setData] = useState({
     name: "",
     email: "",
     password: "",
   });
+
   const onChangeHandler = (e) => {
     const { name, value } = e.target;
     setData({ ...data, [name]: value });
   };
-  const onSubmitHandler = async(e)=>{
-    e.preventDefault()
+
+  const onSubmitHandler = async (e) => {
+    e.preventDefault();
     let newUrl = url;
-    if(curState==="Log In"){
-      newUrl+='/api/user/login'
-    }
-    else{
-      newUrl +='/api/user/register'
-    }
-    try {
-      const response = await axios.post(newUrl,data)
-      if(curState==="Sign Up"){
-        toast.success("Account created successfully! Please Log in")
-        setCurState("Log In")
-      }
-      else{
-        setToken(response.data.token)
-        localStorage.setItem("token",response.data.token)
-        setShowLogin(false)
-      }
-    } catch (error) {
-      toast.error(error.response?.data?.message || "An error occured")
+    if (curState === "Log In") {
+      newUrl += '/api/user/login';
+    } else {
+      newUrl += '/api/user/register';
     }
 
-  }
-  
-  
+    try {
+      const response = await axios.post(newUrl, data);
+      if (curState === "Sign Up") {
+        toast.success("Account created successfully! Please Log in");
+        setCurState("Log In");
+      } else {
+        setToken(response.data.token);
+        localStorage.setItem("token", response.data.token);
+        toast.success("Logged in successfully!"); // ✅ Success toast added here
+        setShowLogin(false);
+      }
+    } catch (error) {
+      toast.error(error.response?.data?.message || "An error occurred");
+    }
+  };
 
   return (
     <div className="login-popup">
@@ -53,11 +52,12 @@ const LoginPopup = ({ setShowLogin }) => {
           <img
             onClick={() => setShowLogin(false)}
             src={assets.cross_icon}
-            alt=""
+            alt="Close"
           />
         </div>
+
         <div className="login-popup-inputs">
-          {curState !== "Log In" ? (
+          {curState !== "Log In" && (
             <input
               name="name"
               value={data.name}
@@ -66,8 +66,6 @@ const LoginPopup = ({ setShowLogin }) => {
               placeholder="Your Name"
               required
             />
-          ) : (
-            <></>
           )}
           <input
             name="email"
@@ -86,11 +84,14 @@ const LoginPopup = ({ setShowLogin }) => {
             required
           />
         </div>
+
         <button type="submit">{curState}</button>
+
         <div className="login-popup-condition">
           <input type="checkbox" required />
           <p>By continuing, I agree to terms & privacy policy</p>
         </div>
+
         {curState === "Log In" ? (
           <p>
             Create a new account?{" "}
@@ -102,7 +103,6 @@ const LoginPopup = ({ setShowLogin }) => {
             <span onClick={() => setCurState("Log In")}>Log in here</span>
           </p>
         )}
-
       </form>
     </div>
   );
