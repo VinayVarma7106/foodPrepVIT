@@ -1,14 +1,11 @@
 import { useContext } from "react";
-import { useState } from "react";
 import "./Cart.css";
 import { StoreContext } from "../../context/StoreContext";
 import { assets } from "../../assets/assets";
-import clickSound from "../../assets/click.mp3"
 import {useNavigate} from 'react-router-dom'
 
 const Cart = () => {
   const { cartItems, food_list, addToCart, removeFromCart,getTotalCartAmount,url } = useContext(StoreContext);
-  const [showToast, setShowToast] = useState(false);
   const navigate = useNavigate();
   return (
     <div className="cart">
@@ -41,20 +38,14 @@ const Cart = () => {
                   />
                   <p >{cartItems[food._id]}</p>
                   <img
-                    onClick={() => {
-                      const audio = new Audio(clickSound);
-                      audio.play();
-                      addToCart(food._id);
-                      setShowToast(true);
-                      setTimeout(() => setShowToast(false), 2000);
-                    }}
+                    onClick={() => {addToCart(food._id);}}
                     src={assets.add_icon_green}
                     alt=""
                   />
                 </div>
               </div>
               <hr />
-              {showToast }
+             
             </>
           );
         }
