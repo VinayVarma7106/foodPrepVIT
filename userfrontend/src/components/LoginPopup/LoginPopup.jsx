@@ -42,7 +42,7 @@ const LoginPopup = ({ setShowLogin }) => {
         localStorage.setItem("token", response.data.token);
         toast.success("Logged in successfully!");
         setShowLogin(false);
-        navigate("/myorders");  
+        //navigate("/myorders");
       }
     } catch (error) {
       toast.error(error.response?.data?.message || "An error occurred");
